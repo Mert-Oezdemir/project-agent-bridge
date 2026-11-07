@@ -4,11 +4,13 @@ import { access, mkdtemp, readFile, rm } from 'node:fs/promises';
 import path from 'node:path';
 import os from 'node:os';
 import { fileURLToPath } from 'node:url';
+import { existsSync } from 'node:fs';
 import { createRuntime } from '../src/index.mjs';
 import { Providers } from '../src/providers.mjs';
 
 const packageRoot = path.dirname(path.dirname(fileURLToPath(import.meta.url)));
-const projectRoot = process.env.BRIDGE_TEST_PROJECTS || path.dirname(packageRoot);
+const projectRoot = process.env.BRIDGE_TEST_PROJECTS ||
+  (existsSync(path.join(packageRoot, 'projects', 'profile-launchpad', 'README.md')) ? path.join(packageRoot, 'projects') : path.dirname(packageRoot));
 
 test('live UI flows send reviewed mail, page TMDB results and upload a photo for an asynchronous analysis result', async t => {
   try { await access(path.join(projectRoot, 'routine-notebook', 'analysis.js')); }

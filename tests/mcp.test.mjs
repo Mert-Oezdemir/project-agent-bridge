@@ -4,12 +4,14 @@ import { mkdtemp, mkdir, rm, readFile, access } from 'node:fs/promises';
 import path from 'node:path';
 import os from 'node:os';
 import { fileURLToPath } from 'node:url';
+import { existsSync } from 'node:fs';
 import { Client } from '@modelcontextprotocol/sdk/client/index.js';
 import { StdioClientTransport } from '@modelcontextprotocol/sdk/client/stdio.js';
 import { projectNames } from '../src/registry.mjs';
 
 const root = path.dirname(path.dirname(fileURLToPath(import.meta.url)));
-const projectRoot = process.env.BRIDGE_TEST_PROJECTS || path.dirname(root);
+const projectRoot = process.env.BRIDGE_TEST_PROJECTS ||
+  (existsSync(path.join(root, 'projects', 'profile-launchpad', 'README.md')) ? path.join(root, 'projects') : path.dirname(root));
 
 test('MCP client discovers tools, opens 14 apps, edits and exports a profile, and reports missing account keys', async t => {
   try { await access(path.join(projectRoot, 'profile-launchpad', 'index.html')); }
