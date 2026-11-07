@@ -1,0 +1,34 @@
+{
+  "name": "@mert/project-agent-bridge",
+  "version": "1.0.0",
+  "description": "Local web runtime, provider integrations and MCP access for the project collection.",
+  "type": "module",
+  "engines": {
+    "node": ">=22"
+  },
+  "exports": "./src/index.mjs",
+  "bin": {
+    "project-agent-bridge": "./bin/bridge.mjs"
+  },
+  "files": [
+    "src",
+    "bin",
+    "README.md",
+    ".env.example"
+  ],
+  "scripts": {
+    "start": "node bin/bridge.mjs serve",
+    "mcp": "node bin/bridge.mjs mcp",
+    "doctor": "node bin/bridge.mjs doctor",
+    "setup": "node bin/setup.mjs",
+    "mcp:config": "node bin/bridge.mjs config",
+    "test": "node --test tests/*.test.mjs"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "1.32.2",
+    "nodemailer": "10.4.0",
+    "playwright": "1.62.1",
+    "proper-lockfile": "4.1.2",
+    "zod": "4.6.7"
+  }
+}
